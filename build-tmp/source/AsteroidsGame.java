@@ -1,3 +1,19 @@
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class AsteroidsGame extends PApplet {
+
 SpaceShip bob = new SpaceShip();
 Stars bg = new Stars();
 public void setup() 
@@ -14,11 +30,11 @@ public void draw()
 {
   if(key=='a')
   {
-    bob.accelerate(0.5);
+    bob.accelerate(0.5f);
   }
   if(key=='d')
   {
-    bob.accelerate(-0.5);
+    bob.accelerate(-0.5f);
   }
   if(key=='4')
   {
@@ -163,7 +179,7 @@ class Stars
       y[i] = (int)(Math.random()*400);
     }
   }
-  void drawStars()
+  public void drawStars()
   {
     fill(0);
     rect(0,0,400,400);
@@ -171,6 +187,15 @@ class Stars
     for(int i=0;i<numStars;i++)
     {
       rect(x[i],y[i],2,2);
+    }
+  }
+}
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "AsteroidsGame" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
     }
   }
 }
