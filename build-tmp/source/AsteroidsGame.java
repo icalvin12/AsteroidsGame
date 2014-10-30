@@ -16,38 +16,67 @@ public class AsteroidsGame extends PApplet {
 
 SpaceShip bob = new SpaceShip();
 Stars bg = new Stars();
+boolean aIsPressed = false;
+boolean dIsPressed = false;
+boolean fourIsPressed = false;
+boolean sixIsPressed = false;
 public void setup() 
 {
-  size(400,400);
+  size(600,600);
+  rectMode(CENTER);
 }
 public void draw() 
 {
   bg.drawStars();
   bob.show();
   bob.move();
+  if(aIsPressed) {bob.accelerate(0.2f);}
+  if(dIsPressed) {bob.accelerate(-0.2f);}
+  if(fourIsPressed) {bob.rotate(-5);}
+  if(sixIsPressed) {bob.rotate(5);}
 }
-  public void keyPressed()
+public void keyReleased()
 {
   if(key=='a')
   {
-    bob.accelerate(0.5f);
+    aIsPressed = false;
   }
   if(key=='d')
   {
-    bob.accelerate(-0.5f);
+    dIsPressed = false;
   }
   if(key=='4')
   {
-    bob.rotate(-15);
+    fourIsPressed = false;
   }
   if(key=='6')
   {
-    bob.rotate(15);
+    sixIsPressed = false;
+  }
+}
+public void keyPressed()
+{
+  if(key=='a')
+  {
+    aIsPressed = true;
+    bob.boosters();
+  }
+  if(key=='d')
+  {
+    dIsPressed = true;
+  }
+  if(key=='4')
+  {
+    fourIsPressed = true;
+  }
+  if(key=='6')
+  {
+    sixIsPressed = true;
   }
   if(key=='0')
   {
-    bob.setX((int)(Math.random()*400));
-    bob.setY((int)(Math.random()*400));
+    bob.setX((int)(Math.random()*600));
+    bob.setY((int)(Math.random()*600));
     bob.setDirectionX(0);
     bob.setDirectionY(0);
     bob.setPointDirection((int)(Math.random()*360));
@@ -69,8 +98,8 @@ class SpaceShip extends Floater
       xCorners[3] = -2;
       yCorners[3] = 0 ;
       myColor = 255;
-      myCenterX = 200;
-      myCenterY = 200;
+      myCenterX = 300;
+      myCenterY = 300;
       myDirectionX = 0;
       myDirectionY = 0;
       myPointDirection = 0;
@@ -85,6 +114,9 @@ class SpaceShip extends Floater
   public double getDirectionY(){return myDirectionY;}   
   public void setPointDirection(int degrees){myPointDirection=degrees;}   
   public double getPointDirection(){return myPointDirection;}
+  public void boosters()
+  {    
+  }
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -170,19 +202,19 @@ class Stars
   int[] y;
   Stars()
   {
-    numStars = (int)((Math.random()*100)+50);
+    numStars = (int)((Math.random()*200)+100);
     x = new int[numStars];
     y = new int[numStars];
     for(int i=0;i<numStars;i++)
     {
-      x[i] = (int)(Math.random()*400);
-      y[i] = (int)(Math.random()*400);
+      x[i] = (int)(Math.random()*600);
+      y[i] = (int)(Math.random()*600);
     }
   }
   public void drawStars()
   {
     fill(0);
-    rect(0,0,400,400);
+    rect(300,300,600,600);
     fill(255);
     for(int i=0;i<numStars;i++)
     {
