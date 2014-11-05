@@ -15,6 +15,7 @@ import java.io.IOException;
 public class AsteroidsGame extends PApplet {
 
 SpaceShip bob = new SpaceShip();
+Asteroids[] joe = new Asteroids[10];
 Stars bg = new Stars();
 boolean aIsPressed = false;
 boolean dIsPressed = false;
@@ -24,12 +25,21 @@ public void setup()
 {
   size(600,600);
   rectMode(CENTER);
+  for(int i=0;i<joe.length;i++)
+  {
+    joe[i] = new Asteroids();
+  }
 }
 public void draw() 
 {
   bg.drawStars();
   bob.show();
   bob.move();
+  for(int i=0;i<joe.length;i++)
+  {
+    joe[i].show();
+    joe[i].move();
+  }
   if(aIsPressed) {bob.accelerate(0.2f);}
   if(dIsPressed) {bob.accelerate(-0.2f);}
   if(fourIsPressed) {bob.rotate(-5);}
@@ -59,7 +69,6 @@ public void keyPressed()
   if(key=='a')
   {
     aIsPressed = true;
-    bob.boosters();
   }
   if(key=='d')
   {
@@ -114,10 +123,45 @@ class SpaceShip extends Floater
   public double getDirectionY(){return myDirectionY;}   
   public void setPointDirection(int degrees){myPointDirection=degrees;}   
   public double getPointDirection(){return myPointDirection;}
-  public void boosters()
-  {    
-  }
 }
+
+class Asteroids extends Floater
+{
+  int rotSpeed;
+  public Asteroids()
+  {
+    rotSpeed = (int)((Math.random()*20)-10);
+    corners = 5;
+    xCorners = new int[corners];
+    yCorners = new int[corners];
+    int[] yS = {-6,-3,9,6,-6};
+    int[] xS = {6,12,6,-3,-3};
+    xCorners = xS;
+    yCorners = yS;
+    myColor = 255;
+    myCenterX = (int)(Math.random()*600);
+    myCenterY = (int)(Math.random()*600);
+    myDirectionX = (int)((Math.random()*4)-2);
+    myDirectionY = (int)((Math.random()*4)-2);
+  }
+  public void move()
+  {
+    super.move();
+    rotate(rotSpeed);
+  }
+  public void setX(int x){myCenterX=x;}
+  public int getX(){return (int)myCenterX;}
+  public void setY(int y){myCenterY=y;}   
+  public int getY(){return (int)myCenterY;}    
+  public void setDirectionX(double x){myDirectionX=x;}   
+  public double getDirectionX(){return myDirectionX;}   
+  public void setDirectionY(double y){myDirectionY=y;}  
+  public double getDirectionY(){return myDirectionY;}   
+  public void setPointDirection(int degrees){myPointDirection=degrees;}   
+  public double getPointDirection(){return myPointDirection;}
+
+}
+
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
