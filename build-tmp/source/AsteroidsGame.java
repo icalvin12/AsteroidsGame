@@ -141,8 +141,8 @@ class Asteroids extends Floater
     myColor = 255;
     myCenterX = (int)(Math.random()*600);
     myCenterY = (int)(Math.random()*600);
-    myDirectionX = (int)((Math.random()*4)-2);
-    myDirectionY = (int)((Math.random()*4)-2);
+    myDirectionX = ((Math.random()*4)-2);
+    myDirectionY = ((Math.random()*4)-2);
   }
   public void move()
   {
