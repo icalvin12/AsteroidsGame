@@ -14,7 +14,6 @@ public void setup()
   {
     joe.add(new Asteroids(i));
   }
-  System.out.println(joe);
 }
 public void draw() 
 {
