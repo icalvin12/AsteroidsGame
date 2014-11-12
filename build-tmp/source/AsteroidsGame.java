@@ -15,30 +15,33 @@ import java.io.IOException;
 public class AsteroidsGame extends PApplet {
 
 SpaceShip bob = new SpaceShip();
-Asteroids[] joe = new Asteroids[10];
+ArrayList <Asteroids> joe = new ArrayList <Asteroids>();
 Stars bg = new Stars();
 boolean aIsPressed = false;
 boolean dIsPressed = false;
 boolean fourIsPressed = false;
 boolean sixIsPressed = false;
+int numAsteroids = 10;
 public void setup() 
 {
   size(600,600);
   rectMode(CENTER);
-  for(int i=0;i<joe.length;i++)
+  for(int i=0;i<numAsteroids;i++)
   {
-    joe[i] = new Asteroids();
+    joe.add(new Asteroids(i));
   }
+  System.out.println(joe);
 }
 public void draw() 
 {
   bg.drawStars();
   bob.show();
   bob.move();
-  for(int i=0;i<joe.length;i++)
+  for(int i=0;i<joe.size();i++)
   {
-    joe[i].show();
-    joe[i].move();
+    joe.get(i).show();
+    joe.get(i).move();
+    joe.get(i).destroy();
   }
   if(aIsPressed) {bob.accelerate(0.2f);}
   if(dIsPressed) {bob.accelerate(-0.2f);}
@@ -106,7 +109,9 @@ class SpaceShip extends Floater
       yCorners[2] = 8;
       xCorners[3] = -2;
       yCorners[3] = 0 ;
-      myColor = 255;
+      r = 255;
+      g = 255;
+      b = 255;
       myCenterX = 300;
       myCenterY = 300;
       myDirectionX = 0;
@@ -127,8 +132,8 @@ class SpaceShip extends Floater
 
 class Asteroids extends Floater
 {
-  int rotSpeed;
-  public Asteroids()
+  int rotSpeed,myNum;
+  public Asteroids(int myTemp)
   {
     rotSpeed = (int)((Math.random()*20)-10);
     corners = 5;
@@ -138,11 +143,33 @@ class Asteroids extends Floater
     int[] xS = {6,12,6,-3,-3};
     xCorners = xS;
     yCorners = yS;
-    myColor = 255;
+    r = 95;
+    g = 82;
+    b = 82;
     myCenterX = (int)(Math.random()*600);
     myCenterY = (int)(Math.random()*600);
     myDirectionX = ((Math.random()*4)-2);
     myDirectionY = ((Math.random()*4)-2);
+    myNum = myTemp;
+    println(myNum);
+  }
+  public void destroy()
+  {
+    if(dist((int)myCenterX,(int)myCenterY,bob.getX(),bob.getY())<30)
+    {
+        joe.remove(myNum);
+        for(int i=0;i<joe.size();i++)
+        {
+          joe.get(i).minusOne(myNum);
+        }
+    }
+  }
+  public void minusOne(int destroyNum)
+  {
+    if(myNum>destroyNum)
+    {
+      myNum = myNum - 1;
+    }
   }
   public void move()
   {
@@ -167,7 +194,7 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   protected int corners;  //the number of corners, a triangular floater has 3   
   protected int[] xCorners;   
   protected int[] yCorners;   
-  protected int myColor;   
+  protected int r,g,b;   
   protected double myCenterX, myCenterY; //holds center coordinates   
   protected double myDirectionX, myDirectionY; //holds x and y coordinates of the vector for direction of travel   
   protected double myPointDirection; //holds current direction the ship is pointing in degrees    
@@ -222,8 +249,8 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   }   
   public void show ()  //Draws the floater at the current position  
   {             
-    fill(myColor);   
-    stroke(myColor);    
+    fill(r,g,b);   
+    stroke(r,g,b);    
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
     int xRotatedTranslated, yRotatedTranslated;    
