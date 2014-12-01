@@ -16,12 +16,13 @@ public class AsteroidsGame extends PApplet {
 
 SpaceShip bob = new SpaceShip();
 ArrayList <Asteroids> joe = new ArrayList <Asteroids>();
+ArrayList <Bullet> joey = new ArrayList <Bullet>();
 Stars bg = new Stars();
 boolean aIsPressed = false;
 boolean dIsPressed = false;
 boolean fourIsPressed = false;
 boolean sixIsPressed = false;
-int numAsteroids = 10;
+int numAsteroids = 20;
 public void setup() 
 {
   size(600,600);
@@ -30,7 +31,6 @@ public void setup()
   {
     joe.add(new Asteroids(i));
   }
-  System.out.println(joe);
 }
 public void draw() 
 {
@@ -42,6 +42,33 @@ public void draw()
     joe.get(i).show();
     joe.get(i).move();
     joe.get(i).destroy();
+  }
+  for(int i=0;i<joey.size();i++)
+  {
+    boolean deleting = false;
+    joey.get(i).show();
+    joey.get(i).move();
+    if(joey.get(i).getX() > 600)
+    {
+      deleting = true;
+    }
+    if(joey.get(i).getY() > 600)
+    {
+      deleting = true;
+    }
+    if(joey.get(i).getX() < 0)
+    {
+      deleting = true;
+    }
+    if(joey.get(i).getY() < 0)
+    {
+      deleting = true;
+    }
+    if(deleting == true)
+    {
+      joey.remove(i);
+      i--;
+    }
   }
   if(aIsPressed) {bob.accelerate(0.2f);}
   if(dIsPressed) {bob.accelerate(-0.2f);}
@@ -66,9 +93,17 @@ public void keyReleased()
   {
     sixIsPressed = false;
   }
+  if(key=='x')
+  {
+    System.out.println(joey);
+  }
 }
 public void keyPressed()
 {
+  if(key=='v')
+  {
+    joey.add(new Bullet(bob));
+  }
   if(key=='a')
   {
     aIsPressed = true;
@@ -93,6 +128,39 @@ public void keyPressed()
     bob.setDirectionY(0);
     bob.setPointDirection((int)(Math.random()*360));
   }
+}
+class Bullet extends Floater
+{
+  double dRadians;
+  Bullet(SpaceShip theShip)
+  {     
+    myCenterX = theShip.myCenterX;
+    myCenterY = theShip.myCenterY;
+    myPointDirection = theShip.myPointDirection;
+    dRadians =myPointDirection*(Math.PI/180);
+    myDirectionX = (5 * Math.cos(dRadians) + theShip.myDirectionX);
+    myDirectionY = (5 * Math.sin(dRadians) + theShip.myDirectionY);
+  }
+  public void move()
+  {
+    myCenterX = myCenterX + myDirectionX;
+    myCenterY = myCenterY + myDirectionY;
+  }
+  public void show()
+  {
+    fill(255,0,0);
+    ellipse((float)myCenterX, (float)myCenterY, 4, 4);
+  }
+  public void setX(int x){myCenterX=x;}
+  public int getX(){return (int)myCenterX;}
+  public void setY(int y){myCenterY=y;}   
+  public int getY(){return (int)myCenterY;}    
+  public void setDirectionX(double x){myDirectionX=x;}   
+  public double getDirectionX(){return myDirectionX;}   
+  public void setDirectionY(double y){myDirectionY=y;}  
+  public double getDirectionY(){return myDirectionY;}   
+  public void setPointDirection(int degrees){myPointDirection=degrees;}   
+  public double getPointDirection(){return myPointDirection;}
 }
 class SpaceShip extends Floater  
 {   
@@ -155,13 +223,24 @@ class Asteroids extends Floater
   }
   public void destroy()
   {
-    if(dist((int)myCenterX,(int)myCenterY,bob.getX(),bob.getY())<30)
+    for(int f=0;f<joey.size();f++)
     {
+      if(dist((int)myCenterX,(int)myCenterY,joey.get(f).getX(),joey.get(f).getY())<10)
+      {
         joe.remove(myNum);
         for(int i=0;i<joe.size();i++)
         {
           joe.get(i).minusOne(myNum);
         }
+      }
+    }
+    if(dist((int)myCenterX,(int)myCenterY,bob.getX(),bob.getY())<30)
+    {
+      joe.remove(myNum);
+      for(int i=0;i<joe.size();i++)
+      {
+        joe.get(i).minusOne(myNum);
+      }
     }
   }
   public void minusOne(int destroyNum)
