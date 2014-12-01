@@ -65,26 +65,21 @@ public void keyReleased()
   {
     aIsPressed = false;
   }
-  if(key=='d')
+  if(key==CODED)
   {
-    dIsPressed = false;
-  }
-  if(key=='4')
+  if(keyCode == LEFT)
   {
     fourIsPressed = false;
   }
-  if(key=='6')
+  if(keyCode == RIGHT)
   {
     sixIsPressed = false;
   }
-  if(key=='x')
-  {
-    System.out.println(joey);
   }
 }
 public void keyPressed()
 {
-  if(key=='v')
+  if(key==' ')
   {
     joey.add(new Bullet(bob));
   }
@@ -92,17 +87,16 @@ public void keyPressed()
   {
     aIsPressed = true;
   }
-  if(key=='d')
+  if(key==CODED)
   {
-    dIsPressed = true;
-  }
-  if(key=='4')
+  if(keyCode == LEFT)
   {
     fourIsPressed = true;
   }
-  if(key=='6')
+  if(keyCode == RIGHT)
   {
     sixIsPressed = true;
+  }
   }
   if(key=='0')
   {
@@ -203,7 +197,6 @@ class Asteroids extends Floater
     myDirectionX = ((Math.random()*4)-2);
     myDirectionY = ((Math.random()*4)-2);
     myNum = myTemp;
-    println(myNum);
   }
   public void destroy()
   {
@@ -218,7 +211,7 @@ class Asteroids extends Floater
         }
       }
     }
-    if(dist((int)myCenterX,(int)myCenterY,bob.getX(),bob.getY())<30)
+  if(dist((int)myCenterX,(int)myCenterY,bob.getX(),bob.getY())<30)
     {
       joe.remove(myNum);
       for(int i=0;i<joe.size();i++)
