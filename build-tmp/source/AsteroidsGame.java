@@ -23,6 +23,8 @@ boolean dIsPressed = false;
 boolean fourIsPressed = false;
 boolean sixIsPressed = false;
 int numAsteroids = 20;
+boolean victory = false;
+int endX;
 public void setup() 
 {
   size(600,600);
@@ -34,6 +36,12 @@ public void setup()
 }
 public void draw() 
 {
+  if(victory==false)
+  {
+  if(joe.size()==0)
+  {
+    victory=true;
+  }
   bg.drawStars();
   bob.show();
   bob.move();
@@ -74,6 +82,15 @@ public void draw()
   if(dIsPressed) {bob.accelerate(-0.2f);}
   if(fourIsPressed) {bob.rotate(-5);}
   if(sixIsPressed) {bob.rotate(5);}
+}
+else 
+{
+  background(0);
+  textAlign(CENTER);
+  bg.drawStars();
+  text("you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck",300,800-endX,75,200);
+  endX++;
+}
 }
 public void keyReleased()
 {
@@ -160,17 +177,25 @@ class SpaceShip extends Floater
 {   
     SpaceShip()
     {
-      corners = 4;
+      corners = 8;
       xCorners = new int[corners];
       yCorners = new int[corners];
       xCorners[0] = -8;
-      yCorners[0] = -8;
-      xCorners[1] = 16;
-      yCorners[1] = 0;
-      xCorners[2] = -8;
-      yCorners[2] = 8;
-      xCorners[3] = -2;
-      yCorners[3] = 0 ;
+      yCorners[0] = 0;
+      xCorners[1] = -12;
+      yCorners[1] = 16;
+      xCorners[2] = -4;
+      yCorners[2] = 12;
+      xCorners[3] = 12;
+      yCorners[3] = 8;
+      xCorners[4] = 20;
+      yCorners[4] = 0;
+      xCorners[5] = 12;
+      yCorners[5] = -8;
+      xCorners[6] = -4;
+      yCorners[6] = -12;
+      xCorners[7] = -12;
+      yCorners[7] = -16;                        
       r = 255;
       g = 255;
       b = 255;
@@ -322,7 +347,7 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   public void show ()  //Draws the floater at the current position  
   {             
     fill(r,g,b);   
-    stroke(r,g,b);    
+    //stroke(r,g,b);    
     //convert degrees to radians for sin and cos         
     double dRadians = myPointDirection*(Math.PI/180);                 
     int xRotatedTranslated, yRotatedTranslated;    
