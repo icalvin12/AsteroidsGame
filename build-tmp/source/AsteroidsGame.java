@@ -88,7 +88,7 @@ else
   background(0);
   textAlign(CENTER);
   bg.drawStars();
-  text("you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck you suck",300,650-endX,60,500);
+  text("you win you win you win you win you win you win you win you win you win you win you win you win you win you win you win you win you win you win you win you win you win",300,650-endX,60,500);
   endX++;
 }
 }
